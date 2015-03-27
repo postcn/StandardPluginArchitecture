@@ -22,7 +22,6 @@ tmp/
 *~.nib
 local.properties
 .settings/
-.loadpath
 
 # External tool builders
 .externalToolBuilders/
@@ -32,12 +31,6 @@ local.properties
 
 # CDT-specific
 .cproject
-
-# JDT-specific (Eclipse Java Development Tools)
-.classpath
-
-# PDT-specific
-.buildpath
 
 # sbteclipse plugin
 .target
