@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 
+import builtinPlugins.CalculatorPlugin;
 import builtinPlugins.StupidPlugin;
 
 
@@ -44,7 +44,7 @@ public class PluginHandler {
 	public void launchPlugin(int index) {
 		if (currentPlugin != null) {
 			currentPlugin.Stop();
-//			pluginPanel.removeAll();
+			pluginPanel.removeAll();
 		}
 		Plugin toLaunch = plugins.get(index);
 		toLaunch.Load(pluginPanel, messageHandler);
@@ -60,9 +60,8 @@ public class PluginHandler {
 	}
 	
 	private void addDefaultPlugins() {
-		for (int i=0; i<100; i++) {
-			register(new StupidPlugin());
-		}
+		register(new StupidPlugin());
+		register(new CalculatorPlugin());
 	}
 
 }
