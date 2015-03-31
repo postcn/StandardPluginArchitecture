@@ -7,6 +7,9 @@ import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 
+import export.Message;
+import export.Plugin;
+import builtinPlugins.BallWorld;
 import builtinPlugins.CalculatorPlugin;
 import builtinPlugins.StupidPlugin;
 
@@ -62,6 +65,7 @@ public class PluginHandler {
 	private void addDefaultPlugins() {
 		register(new StupidPlugin());
 		register(new CalculatorPlugin());
+		register(new BallWorld());
 	}
 
 }

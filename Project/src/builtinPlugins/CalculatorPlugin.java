@@ -10,9 +10,9 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import core.Message;
 import core.MessageHandler;
-import core.Plugin;
+import export.Message;
+import export.Plugin;
 
 public class CalculatorPlugin implements Plugin {
 	public static final String NAME = "Calculator Plugin";

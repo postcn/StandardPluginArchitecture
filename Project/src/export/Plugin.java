@@ -1,6 +1,8 @@
-package core;
+package export;
 
 import javax.swing.JPanel;
+
+import core.MessageHandler;
 
 public interface Plugin {
 	

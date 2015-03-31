@@ -3,9 +3,9 @@ package builtinPlugins;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import core.Message;
 import core.MessageHandler;
-import core.Plugin;
+import export.Message;
+import export.Plugin;
 
 
 public class StupidPlugin implements Plugin {

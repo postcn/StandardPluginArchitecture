@@ -3,6 +3,8 @@ package core;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import export.Message;
+
 public class MessageHandler {
 	
 	public MessageHandler(JPanel messagePanel) {
