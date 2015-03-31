@@ -9,8 +9,8 @@ import java.util.Random;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
-import core.MessageHandler;
 import export.Message;
+import export.MessageHandler;
 import export.Plugin;
 
 

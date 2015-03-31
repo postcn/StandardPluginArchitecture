@@ -10,8 +10,8 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import core.MessageHandler;
 import export.Message;
+import export.MessageHandler;
 import export.Plugin;
 
 public class CalculatorPlugin implements Plugin {
@@ -56,9 +56,9 @@ public class CalculatorPlugin implements Plugin {
 
 	@Override
 	public void Stop() {
-		this.calculationsPerformed = 0;
 		this.contentPanel.remove(calculatorPanel);
 		messageHandler.sendMessage(new Message(NAME, String.format(CALCULATION_CLOSE_MESSAGE, calculationsPerformed)));
+		this.calculationsPerformed = 0;
 	}
 
 	@Override

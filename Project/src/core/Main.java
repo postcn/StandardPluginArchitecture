@@ -10,6 +10,8 @@ import javax.swing.JScrollPane;
 import javax.swing.SpringLayout;
 import javax.swing.WindowConstants;
 
+import export.MessageHandler;
+
 public class Main {
 	public static final ImageIcon icon = new ImageIcon("./Images/plug.jpg");
 	public static final String TITLE = "Midnight Oil Plugins";
@@ -33,12 +35,13 @@ public class Main {
 		this.listingPanel = new JPanel();
 		JScrollPane listingContainer = new JScrollPane(listingPanel);
 		this.statusPanel = new JPanel();
+		JScrollPane statusContainer = new JScrollPane(statusPanel);
 		this.renderPanel = new JPanel();
 		Dimension listingPanelDimension = new Dimension(WIDTH/4, HEIGHT);
 		Dimension renderPanelDimension = new Dimension(3*WIDTH/4, 3*HEIGHT/4);
 		Dimension statusPanelDimension = new Dimension(3*WIDTH/4, HEIGHT/4);
 		
-		MessageHandler mHandler = new MessageHandler(statusPanel);
+		MessageHandler mHandler = new MessageHandler(statusPanel, statusContainer);
 		PluginHandler pHandler = new PluginHandler(listingPanel, renderPanel, mHandler);
 		new PluginLoader(pHandler);
 		
@@ -47,7 +50,7 @@ public class Main {
 		contentPane.setLayout(layout);
 		contentPane.add(listingContainer);
 		contentPane.add(renderPanel);
-		contentPane.add(statusPanel);
+		contentPane.add(statusContainer);
 		
 		//Set hte listing panel's size.
 		listingContainer.setPreferredSize(listingPanelDimension);
@@ -68,14 +71,14 @@ public class Main {
 		layout.putConstraint(SpringLayout.NORTH, renderPanel, 0, SpringLayout.NORTH, contentPane);
 		
 		//set the status panel to have maximum and preferred size.
-		statusPanel.setPreferredSize(statusPanelDimension);
-		statusPanel.setMaximumSize(statusPanelDimension);
+		statusContainer.setPreferredSize(statusPanelDimension);
+		statusContainer.setMaximumSize(statusPanelDimension);
 		
 		//constrain the status panel to the bottom right.
-		layout.putConstraint(SpringLayout.WEST, statusPanel, 0, SpringLayout.EAST, listingContainer);
-		layout.putConstraint(SpringLayout.SOUTH, statusPanel, 0, SpringLayout.SOUTH, contentPane);
-		layout.putConstraint(SpringLayout.NORTH, statusPanel, 0, SpringLayout.SOUTH, renderPanel);
-		layout.putConstraint(SpringLayout.EAST, statusPanel, 0, SpringLayout.EAST, contentPane);
+		layout.putConstraint(SpringLayout.WEST, statusContainer, 0, SpringLayout.EAST, listingContainer);
+		layout.putConstraint(SpringLayout.SOUTH, statusContainer, 0, SpringLayout.SOUTH, contentPane);
+		layout.putConstraint(SpringLayout.NORTH, statusContainer, 0, SpringLayout.SOUTH, renderPanel);
+		layout.putConstraint(SpringLayout.EAST, statusContainer, 0, SpringLayout.EAST, contentPane);
 		
 		mainFrame.setVisible(true);
 	}

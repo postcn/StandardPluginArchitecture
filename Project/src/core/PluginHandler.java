@@ -8,6 +8,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 
 import export.Message;
+import export.MessageHandler;
 import export.Plugin;
 import builtinPlugins.BallWorld;
 import builtinPlugins.CalculatorPlugin;
@@ -45,6 +46,7 @@ public class PluginHandler {
 	}
 	
 	public void launchPlugin(int index) {
+		messageHandler.sendSystemMessage(new Message(SYSTEM_NAME, "Launching Plugin."));
 		if (currentPlugin != null) {
 			currentPlugin.Stop();
 			pluginPanel.removeAll();
@@ -58,7 +60,7 @@ public class PluginHandler {
 	public void register(Plugin newPlugin) {
 		this.plugins.add(newPlugin);
 		model.addElement(newPlugin.getIdentifier());
-		messageHandler.sendMessage(new Message(SYSTEM_NAME, String.format(SYSTEM_MESSAGE_FORMAT, newPlugin.getIdentifier())));
+		messageHandler.sendSystemMessage(new Message(SYSTEM_NAME, String.format(SYSTEM_MESSAGE_FORMAT, newPlugin.getIdentifier())));
 		list.repaint();
 	}
 	
