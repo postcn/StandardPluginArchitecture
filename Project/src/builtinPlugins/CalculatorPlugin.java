@@ -87,7 +87,7 @@ public class CalculatorPlugin implements Plugin {
 		
 		JButton[] buttons = new JButton[10];
 		for (int i=0; i<10; i++) {
-			JButton button = new JButton(entries[i]);
+			final JButton button = new JButton(entries[i]);
 			button.addActionListener(new ActionListener() {
 
 				@Override
@@ -180,7 +180,7 @@ public class CalculatorPlugin implements Plugin {
 		this.contentPanel.repaint();
 	}
 	
-	private JButton createOperatorButton(CalcFunction functionToExecute) {
+	private JButton createOperatorButton(final CalcFunction functionToExecute) {
 		JButton newButton = new JButton(convertFunc.get(functionToExecute));
 		newButton.addActionListener(new ActionListener() {
 
