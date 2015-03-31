@@ -10,16 +10,21 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.zip.ZipException;
 
+import export.Message;
+import export.MessageHandler;
 import export.Plugin;
 
 public class PluginLoader {
 
 	// TODO: Make this class listen for jar files dropped in during runtime.
 	PluginHandler handler;
+	MessageHandler messHandler;
 	final File PLUGIN_FILE = new File("../Plugins"); //This is the directory Location that we are using.
+	public static final String NAME = "Plugin Loader";
 
-	public PluginLoader(PluginHandler handler) {
+	public PluginLoader(PluginHandler handler, MessageHandler messHandler) {
 		this.handler = handler;
+		this.messHandler = messHandler;
 	}
 
 	public void loadPlugins() {
@@ -29,7 +34,8 @@ public class PluginLoader {
 			try {
 				loadAndScanJar(files[i]);
 			} catch (ClassNotFoundException | IOException e) {
-				e.printStackTrace();
+				messHandler.sendSystemMessage(new Message(NAME, "Error occurred while processing file: " + files[i].getName()));
+				messHandler.sendSystemMessage(new Message(NAME, "An Error Occurred while loading a possible jar file: " + e.getLocalizedMessage()));
 			}
 		}
 

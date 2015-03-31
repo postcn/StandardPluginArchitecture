@@ -43,7 +43,7 @@ public class Main {
 		
 		MessageHandler mHandler = new MessageHandler(statusPanel, statusContainer);
 		PluginHandler pHandler = new PluginHandler(listingPanel, renderPanel, mHandler);
-		PluginLoader loader = new PluginLoader(pHandler);
+		PluginLoader loader = new PluginLoader(pHandler, mHandler);
 		loader.loadPlugins();
 		
 		Container contentPane = mainFrame.getContentPane();
