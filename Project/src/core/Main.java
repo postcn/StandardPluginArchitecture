@@ -43,7 +43,8 @@ public class Main {
 		
 		MessageHandler mHandler = new MessageHandler(statusPanel, statusContainer);
 		PluginHandler pHandler = new PluginHandler(listingPanel, renderPanel, mHandler);
-		new PluginLoader(pHandler);
+		PluginLoader loader = new PluginLoader(pHandler);
+		loader.loadPlugins();
 		
 		Container contentPane = mainFrame.getContentPane();
 		SpringLayout layout = new SpringLayout();

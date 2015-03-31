@@ -10,7 +10,6 @@ import javax.swing.JPanel;
 import export.Message;
 import export.MessageHandler;
 import export.Plugin;
-import builtinPlugins.BallWorld;
 import builtinPlugins.CalculatorPlugin;
 import builtinPlugins.StupidPlugin;
 
@@ -46,11 +45,12 @@ public class PluginHandler {
 	}
 	
 	public void launchPlugin(int index) {
-		messageHandler.sendSystemMessage(new Message(SYSTEM_NAME, "Launching Plugin."));
 		if (currentPlugin != null) {
+			messageHandler.sendSystemMessage(new Message(SYSTEM_NAME, "Stopping Current Plugin."));
 			currentPlugin.Stop();
 			pluginPanel.removeAll();
 		}
+		messageHandler.sendSystemMessage(new Message(SYSTEM_NAME, "Launching New Plugin."));
 		Plugin toLaunch = plugins.get(index);
 		toLaunch.Load(pluginPanel, messageHandler);
 		currentPlugin = toLaunch;
@@ -67,7 +67,6 @@ public class PluginHandler {
 	private void addDefaultPlugins() {
 		register(new StupidPlugin());
 		register(new CalculatorPlugin());
-		register(new BallWorld());
 	}
 
 }
