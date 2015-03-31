@@ -3,8 +3,8 @@ package builtinPlugins;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import core.MessageHandler;
 import export.Message;
+import export.MessageHandler;
 import export.Plugin;
 
 
