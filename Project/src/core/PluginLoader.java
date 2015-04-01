@@ -65,7 +65,7 @@ public class PluginLoader {
 		        // Verify that the new file is a text file.
 		        try {
 		            // Resolve the filename against the directory. If the filename is "test" and the directory is "foo", the resolved name is 
-		        	//"test/foo".
+		        	//    \foo\test
 		        	
 		            Path child = dir.resolve(filename);
 		            System.out.println("child filename "+child);
@@ -73,13 +73,14 @@ public class PluginLoader {
 		            if (!Files.probeContentType(child).equals("jar")) {
 		            	System.out.println("New File: ("+filename+") is not a jar file");
 		                continue;
+		            }else{
+		            	System.out.println("I found a jar file: "+filename);
 		            }
 		        } catch (IOException x) {
 		            System.err.println(x);
 		            continue;
 		        }
 	
-		        // Email the file to the specified email alias.
 		        System.out.println("picked up: "+filename);
 		    }
 	
@@ -136,7 +137,6 @@ public class PluginLoader {
 				e1.printStackTrace();
 			}
 		}
-		System.out.println(pluginClasses.size());
 		jarFile.close();
 	}
 }
