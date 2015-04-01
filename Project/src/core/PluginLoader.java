@@ -62,26 +62,20 @@ public class PluginLoader {
 		        WatchEvent<Path> ev = (WatchEvent<Path>)event;
 		        Path filename = ev.context();
 	
-		        // Verify that the new file is a text file.
-		        try {
-		            // Resolve the filename against the directory. If the filename is "test" and the directory is "foo", the resolved name is 
-		        	//    \foo\test
-		        	
-		            Path child = dir.resolve(filename);
-		            System.out.println("child filename "+child);
-		            System.out.println("content type: "+Files.probeContentType(child));
-		            if (!Files.probeContentType(child).equals("jar")) {
-		            	System.out.println("New File: ("+filename+") is not a jar file");
-		                continue;
-		            }else{
-		            	System.out.println("I found a jar file: "+filename);
-		            }
-		        } catch (IOException x) {
-		            System.err.println(x);
-		            continue;
-		        }
-	
-		        System.out.println("picked up: "+filename);
+		        Path child = dir.resolve(filename);
+				if (child.getFileName().toString().endsWith(".jar")) {
+					System.out.println("I found a jar file: "+filename);
+					try {						
+						loadAndScanJar(child.toFile());
+						
+					} catch (ClassNotFoundException | IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}else{
+					System.out.println("New File: ("+filename+") is not a jar file");
+				    continue;
+				}
 		    }
 	
 		    // Reset the key -- this step is critical if you want to receive further watch events.  If the key is no longer valid,
@@ -93,9 +87,9 @@ public class PluginLoader {
         }
 	}
 	public void loadPlugins() {
-
 		File[] files = PLUGIN_FILE.listFiles();
 		for (int i = 0; i < files.length; i++) {
+			System.out.println(files[i]);
 			try {
 				loadAndScanJar(files[i]);
 			} catch (ClassNotFoundException | IOException e) {
