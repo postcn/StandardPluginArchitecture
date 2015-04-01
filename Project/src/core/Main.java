@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SpringLayout;
+import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
 import export.MessageHandler;
@@ -91,6 +92,18 @@ public class Main {
 		layout.putConstraint(SpringLayout.EAST, statusContainer, 0, SpringLayout.EAST, contentPane);
 		
 		mainFrame.setVisible(true);
+		
+		//In case of rendered messages overflowing the space before the system is ready.
+		SwingUtilities.invokeLater
+		(
+		  new Runnable()
+		  {
+		    public void run()
+		    {
+		    	statusContainer.getVerticalScrollBar().setValue(Integer.MAX_VALUE);
+		    }
+		  }
+		);
 	}
 
 	public static void main(String[] args) {

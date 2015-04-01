@@ -10,8 +10,7 @@ import javax.swing.JPanel;
 import export.Message;
 import export.MessageHandler;
 import export.Plugin;
-import builtinPlugins.CalculatorPlugin;
-import builtinPlugins.StupidPlugin;
+import builtinPlugins.WelcomePlugin;
 
 
 public class PluginHandler {
@@ -65,8 +64,8 @@ public class PluginHandler {
 	}
 	
 	private void addDefaultPlugins() {
-		register(new StupidPlugin());
-		register(new CalculatorPlugin());
+		register(new WelcomePlugin());
+		launchPlugin(0);
 	}
 
 }

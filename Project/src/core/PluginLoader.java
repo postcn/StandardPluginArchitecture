@@ -24,7 +24,7 @@ public class PluginLoader implements Runnable{
 
 	PluginHandler handler;
 	MessageHandler messHandler;
-	final File PLUGIN_FILE = new File("../Plugins"); //This is the directory Location that we are using.
+	final File PLUGIN_FILE = new File("./Plugins"); //This is the directory Location that we are using.
 	public static final String NAME = "Plugin Loader";
 	private WatchService watcher;
 	private Path dir;
@@ -32,6 +32,12 @@ public class PluginLoader implements Runnable{
 	public PluginLoader(PluginHandler handler, MessageHandler messHandler) {
 		this.handler = handler;
 		this.messHandler = messHandler;
+		
+		if (!PLUGIN_FILE.exists()) {
+			messHandler.sendSystemMessage(new Message(NAME, "Appears to be new run from current location. Creating Directory: Plugins"));
+			messHandler.sendSystemMessage(new Message(NAME, "To Add Plugins: drop them into the newly created Plugins directory."));
+			PLUGIN_FILE.mkdir();
+		}
 	}
 	
 	public void registerWatcher() throws IOException{
@@ -42,8 +48,11 @@ public class PluginLoader implements Runnable{
 	
 	public void loadPlugins() {
 		File[] files = PLUGIN_FILE.listFiles();
+		if (files == null) {
+			messHandler.sendSystemMessage(new Message(NAME, "Critical Error: Plugins directory is missing from current folder"));
+			return;
+		}
 		for (int i = 0; i < files.length; i++) {
-			System.out.println(files[i]);
 			try {
 				loadAndScanJar(files[i]);
 			} catch (ClassNotFoundException | IOException e) {
@@ -107,21 +116,21 @@ public class PluginLoader implements Runnable{
 		        }
 	
 		        // The filename is the context of the event.
-		        WatchEvent<Path> ev = (WatchEvent<Path>)event;
+		        @SuppressWarnings("unchecked")
+				WatchEvent<Path> ev = (WatchEvent<Path>)event;
 		        Path filename = ev.context();
 	
 		        Path child = dir.resolve(filename);
 				if (child.getFileName().toString().endsWith(".jar")) {
-					System.out.println("I found a jar file: "+filename);
+					messHandler.sendSystemMessage(new Message(NAME, "Dynamically adding jar file added after initial startup"));
 					try {						
 						loadAndScanJar(child.toFile());
 						
 					} catch (ClassNotFoundException | IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}else{
-					System.out.println("New File: ("+filename+") is not a jar file");
+					messHandler.sendSystemMessage(new Message(NAME, "New File: ("+filename+") is not a jar file"));
 				    continue;
 				}
 		    }
