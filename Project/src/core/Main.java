@@ -2,6 +2,7 @@ package core;
 
 import java.awt.Container;
 import java.awt.Dimension;
+import java.io.IOException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -44,7 +45,14 @@ public class Main {
 		MessageHandler mHandler = new MessageHandler(statusPanel, statusContainer);
 		PluginHandler pHandler = new PluginHandler(listingPanel, renderPanel, mHandler);
 		PluginLoader loader = new PluginLoader(pHandler, mHandler);
-		loader.loadPlugins();
+//		loader.loadPlugins();
+		try {
+			loader.registerWatcher();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		loader.watchDirectory();
 		
 		Container contentPane = mainFrame.getContentPane();
 		SpringLayout layout = new SpringLayout();
