@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.file.FileSystems;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardWatchEventKinds;
 import java.nio.file.WatchEvent;
@@ -21,7 +20,7 @@ import export.Message;
 import export.MessageHandler;
 import export.Plugin;
 
-public class PluginLoader {
+public class PluginLoader implements Runnable{
 
 	PluginHandler handler;
 	MessageHandler messHandler;
@@ -41,51 +40,6 @@ public class PluginLoader {
 		this.dir.register(watcher,StandardWatchEventKinds.ENTRY_CREATE);
 	}
 	
-	public void watchDirectory(){
-        for(;;){
-			WatchKey key;
-			try {
-		        key = this.watcher.take();
-		    } catch (InterruptedException x) {
-		        return;
-		    }
-	
-		    for (WatchEvent<?> event: key.pollEvents()) {
-		        WatchEvent.Kind<?> kind = event.kind();
-	
-		        // This key is registered only for ENTRY_CREATE events, but an OVERFLOW event can occur regardless if events are lost or discarded.
-		        if (kind == StandardWatchEventKinds.OVERFLOW) {
-		            continue;
-		        }
-	
-		        // The filename is the context of the event.
-		        WatchEvent<Path> ev = (WatchEvent<Path>)event;
-		        Path filename = ev.context();
-	
-		        Path child = dir.resolve(filename);
-				if (child.getFileName().toString().endsWith(".jar")) {
-					System.out.println("I found a jar file: "+filename);
-					try {						
-						loadAndScanJar(child.toFile());
-						
-					} catch (ClassNotFoundException | IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}else{
-					System.out.println("New File: ("+filename+") is not a jar file");
-				    continue;
-				}
-		    }
-	
-		    // Reset the key -- this step is critical if you want to receive further watch events.  If the key is no longer valid,
-		    // the directory is inaccessible so exit the loop.
-		    boolean valid = key.reset();
-		    if (!valid) {
-		        break;
-		    }
-        }
-	}
 	public void loadPlugins() {
 		File[] files = PLUGIN_FILE.listFiles();
 		for (int i = 0; i < files.length; i++) {
@@ -132,5 +86,52 @@ public class PluginLoader {
 			}
 		}
 		jarFile.close();
+	}
+
+	@Override
+	public void run() {
+		for(;;){
+			WatchKey key;
+			try {
+		        key = this.watcher.take();
+		    } catch (InterruptedException x) {
+		        return;
+		    }
+	
+		    for (WatchEvent<?> event: key.pollEvents()) {
+		        WatchEvent.Kind<?> kind = event.kind();
+	
+		        // This key is registered only for ENTRY_CREATE events, but an OVERFLOW event can occur regardless if events are lost or discarded.
+		        if (kind == StandardWatchEventKinds.OVERFLOW) {
+		            continue;
+		        }
+	
+		        // The filename is the context of the event.
+		        WatchEvent<Path> ev = (WatchEvent<Path>)event;
+		        Path filename = ev.context();
+	
+		        Path child = dir.resolve(filename);
+				if (child.getFileName().toString().endsWith(".jar")) {
+					System.out.println("I found a jar file: "+filename);
+					try {						
+						loadAndScanJar(child.toFile());
+						
+					} catch (ClassNotFoundException | IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}else{
+					System.out.println("New File: ("+filename+") is not a jar file");
+				    continue;
+				}
+		    }
+	
+		    // Reset the key -- this step is critical if you want to receive further watch events.  If the key is no longer valid,
+		    // the directory is inaccessible so exit the loop.
+		    boolean valid = key.reset();
+		    if (!valid) {
+		        break;
+		    }
+        }
 	}
 }
